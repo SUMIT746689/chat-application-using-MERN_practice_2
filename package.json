@@ -16,6 +16,7 @@
     "http-errors": "^2.0.0",
     "mongoose": "^6.2.4",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "toastify-js": "^1.11.2"
   }
 }

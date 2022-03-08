@@ -14,7 +14,6 @@ const User = require('../schema/userSchema');
 route.get('/',setLocalsHandler("control"), async (req,res,next)=>{
     console.log(res.locals.user);
     const users = await User.find();
-    console.log(users);
     res.render("users",{
         users
     });
@@ -22,6 +21,6 @@ route.get('/',setLocalsHandler("control"), async (req,res,next)=>{
 
 route.post('/',avatarHandle,validateCheck,validateResult,addDatabase);
 
-route.delete('/',deleteHandle);
+route.delete('/:id',deleteHandle);
 
 module.exports = route ;

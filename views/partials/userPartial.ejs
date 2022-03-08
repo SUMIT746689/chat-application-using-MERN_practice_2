@@ -74,10 +74,21 @@
           errorMessage.textContent = responseData.errors[key].msg; 
         })
       }
+      else{
+        Toastify({
+          text : "Successfully Create",
+          duration : 1000,
+          position : "center"
+        }).showToast();
+
+        setTimeout(()=>{
+          location.reload();
+        },1000)
+      }
 
     }
 
     //form event
-    form.addEventListener("submit",formSubmit)
+    form.addEventListener("submit",formSubmit);
 
   </script>

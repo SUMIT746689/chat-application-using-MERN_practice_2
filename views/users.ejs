@@ -63,11 +63,25 @@
     <script>
       
       async function deleteHandle(userId){
-        const response = await fetch(`/user/${userId}`,{
+        const response = await fetch(`/users/${userId}`,{
           method : 'DELETE',
         })
         const responeJson = await response.json();
         console.log(responeJson);
+
+        //secess message and rerender
+        if(responeJson.message){
+          Toastify({
+          text : "Successfully Deleted",
+          duration : 1000,
+          position : "center"
+        }).showToast();
+        
+          setTimeout(()=>{
+            location.reload();
+          },1000);
+        }
+
       }
     </script>
   </body>
