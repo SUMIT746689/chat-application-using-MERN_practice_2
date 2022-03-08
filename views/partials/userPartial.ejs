@@ -11,15 +11,20 @@
             enctype="multipart/form-data"
         >
           <input type="text" placeholder="enter name" name="name" />
-          <p class="error show">This is error</p>
+          <p class="error name-error"></p>
+
           <input type="text" placeholder="enter email" name="email" />
+          <p class="error email-error"></p>
+
           <input type="text" placeholder="enter mobile" name="mobile" />
-          <input
-            type="password"
-            placeholder="enter password"
-            name="password"
-          />
+          <p class="error mobile-error"></p>
+
+          <input type="password" placeholder="enter password" name="password"/>
+          <p class="error password-error"></p>
+
           <input type="file" name="avatar" />
+          <p class="error avatar-error"></p>
+
           <input type="submit" value="Submit" />
         </form>
       </div>
@@ -27,10 +32,52 @@
   </div>
   <script>
     const modal = document.querySelector("#add-user-modal");
+    const form = document.querySelector("#add-user-form");
+
     function closeModal() {
       modal.style.display = "none";
     }
     function openModal() {
       modal.style.display = "block";
     }
+
+    //form event handler 
+    async function formSubmit(event){
+      //default rerender false
+      event.preventDefault();
+
+      //set all error p tag default 
+      const errorMessage = document.querySelectorAll('.error');
+      errorMessage.forEach((item)=>{
+        item.style.display = 'none';
+        item.textContent = '';
+        console.log(item)
+      });   
+
+      //set form data
+      const formData = new FormData(form);   
+
+      //fetch data 
+      let response = await fetch('./users',{
+        method : 'POST',
+        body : formData
+      });
+      //fetch data to 
+      let responseData = await response.json();
+      console.log(responseData);
+
+      if(responseData.errors){
+        //set error p messege in form 
+        Object.keys(responseData.errors).forEach((key)=>{
+          const errorMessage = document.querySelector(`.${key}-error`);
+          errorMessage.style.display = 'block';
+          errorMessage.textContent = responseData.errors[key].msg; 
+        })
+      }
+
+    }
+
+    //form event
+    form.addEventListener("submit",formSubmit)
+
   </script>

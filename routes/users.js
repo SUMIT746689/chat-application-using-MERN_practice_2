@@ -1,19 +1,27 @@
 //external middleware
+const { Router } = require('express');
 const express = require('express');
-const setLocalsHandler = require('../middleware/common/setLocals');
-const {avatarHandle} = require('../middleware/user/avatarHandle');
-const { validateCheck, validateResult } = require('../middleware/user/validatorHandle');
 
 //internal middleware
+const route = express.Router();
+const setLocalsHandler = require('../middleware/common/setLocals');
+const addDatabase = require('../middleware/user/addDatabase');
+const {avatarHandle} = require('../middleware/user/avatarHandle');
+const deleteHandle = require('../middleware/user/deleteHandle');
+const { validateCheck, validateResult } = require('../middleware/user/validatorHandle');
+const User = require('../schema/userSchema');
 
-const route = express.Router()
-
-
-route.get('/',setLocalsHandler("control"),(req,res,next)=>{
+route.get('/',setLocalsHandler("control"), async (req,res,next)=>{
     console.log(res.locals.user);
-    res.render("users");
+    const users = await User.find();
+    console.log(users);
+    res.render("users",{
+        users
+    });
 });
 
-route.post('/',avatarHandle,validateCheck,validateResult)
+route.post('/',avatarHandle,validateCheck,validateResult,addDatabase);
+
+route.delete('/',deleteHandle);
 
 module.exports = route ;
