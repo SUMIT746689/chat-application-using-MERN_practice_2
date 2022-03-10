@@ -1,12 +1,14 @@
 //External middleware
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser'); 
 
 //internal middleware
 const { defaultpath, defaultErrorHandle } = require('./middleware/defaultErrorHandle/defaultErrorHandle');
 const login = require('./routes/index');
 const inbox = require('./routes/inbox');
 const users = require('./routes/users');
+const { urlencoded } = require('express');
 
 //create a application
 const app = express();
@@ -21,9 +23,13 @@ mongoose.connect(process.env.mongoose_database_url)
 
 //types of data can get
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(express.static('./public',{
     index : false
 }));
+
+//use cookie parser
+app.use(cookieParser(process.env.cookieSecret));
 
 //set a file accept engine
 app.set("view engine","ejs");
