@@ -51,7 +51,9 @@ try{
         //response set a user info object
         res.locals.userInfo = userObject ;
         //after success redirect in inbox page
-        res.render('inbox');
+        res.render('inbox',{
+            userObject : res.locals.userObject,
+        });
     }
     else{
         throw createError("Jwt Token is not created ")
@@ -61,7 +63,8 @@ try{
         res.render(
             'index',{
             data :{
-               username :  req.body.username
+                userObject : res.locals.userObject,
+                username :  req.body.username
             },
             errors : {
                 common : {
