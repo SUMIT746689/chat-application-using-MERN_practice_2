@@ -18,7 +18,7 @@ require('dotenv').config();
 
 //connect with mongodb server
 mongoose.connect(process.env.mongoose_database_url)
-    .then(()=>{console.log("Database connection Successull...")})
+    .then(()=>{console.log("Database connection Successfull...")})
     .catch(()=>{console.log(err)});
 
 //types of data can get
