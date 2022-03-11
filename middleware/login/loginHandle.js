@@ -62,8 +62,8 @@ try{
     catch(err){
         res.render(
             'index',{
+            userObject : res.locals.userObject,
             data :{
-                userObject : res.locals.userObject,
                 username :  req.body.username
             },
             errors : {
