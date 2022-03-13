@@ -51,9 +51,7 @@ try{
         //response set a user info object
         res.locals.userInfo = userObject ;
         //after success redirect in inbox page
-        res.render('inbox',{
-            userObject : res.locals.userObject,
-        });
+        res.redirect('/inbox');
     }
     else{
         throw createError("Jwt Token is not created ")

@@ -10,14 +10,21 @@
     <link rel="shortcut icon" href="./images/favicon.png" />
     <link rel="stylesheet" href="./stylesheets/toastify.css" />
     <link rel="stylesheet" href="./stylesheets/style.css" />
+    <style>
+     
+    </style>
     <script src="./js/toastify.js"></script>
   </head>
   <body>
     <%- include('./common/projectRouters.ejs') %>
+    
+    <!-- Search User-->
     <div id="chat-container">
-      <div id="search-container">
-        <input type="text" placeholder="Search" />
+      <div id="search-container" >
+        <input type="text" id="search-user" placeholder="Search" style="min-width: 100px;"/>
       </div>
+
+      <!-- Conversation users list -->
       <div id="conversation-list">
         <div class="conversation active">
           <img src="./images/user1.png" alt="Sumit" />
@@ -32,9 +39,12 @@
           <div class="conversation-message">This is a message</div>
         </div>
       </div>
+
+      <!--Add new conversation user-->
       <div id="new-message-container">
-        <a href="#">+</a>
+        <a href="#" id="createNewConversation" title="Serach users" style="width:50px;color:rgba(255, 228, 196, 0.479);font-size:4rem;position: absolute;left:clamp(35%,300px);bottom:40px;padding-left: 20px;">+</a>
       </div>
+
       <div id="chat-title">
         <span>Sumit</span>
         <img src="./images/trash.png" alt="Delete Conversation" />
@@ -54,9 +64,10 @@
           </div>
         </div>
       </div>
-      <div id="chat-form">
+      <div id="chat-form" >
         <img src="./images/attachment.png" alt=Add Attachment"" />
-        <input type="text" placeholder="Type a message" />
+        <input class="" type="text" placeholder="Type a message" />
+        <input type="submit" value="send" />
       </div>
     </div>
 
@@ -67,13 +78,53 @@
           <h2>Create New Conversation</h2>
         </div>
         <div class="modal-body">
-          <form>
-            <input type="text" placeholder="Name" />
-            <input type="text" placeholder="Username" />
-            <input type="button" value="Submit" />
+          <form >
+            <input id="new-Converstion-users" type="text" placeholder="Username" name="username" />
+            <input id="create-new-Converstion" type="submit"  value="Submit" />
           </form>
         </div>
       </div>
     </div>
+    <div><%= userObject.name%></div>
   </body>
+
+  <script>
+    const modalClose = document.querySelector('.modal-close');
+    const modalWrapper = document.querySelector('.modal-wrapper');
+    const searchUser = document.querySelector('#search-user');
+    const chatForm = document.querySelector('#chat-form');
+    const displayNewConversation = document.querySelector('#new-message-container');
+    const newConverstionUsers = document.querySelector('#new-Converstion-users');
+    const createNewConversation = document.querySelector('#create-new-Converstion');
+
+    //add new modal form display
+    displayNewConversation.addEventListener('click',()=>{
+      modalWrapper.style.display = 'block';
+    })
+    //modal wrapper form close
+    modalClose.addEventListener('click',()=>{
+      modalWrapper.style.display = 'none'
+    })
+    
+    //finds available users for conversation
+    newConverstionUsers.addEventListener('keyup', async (e)=>{
+      console.log(e.target.value);
+      setTimeout(async () => {
+        await fetch(`inbox/${e.target.value}`,{
+        method:'POST'
+        })
+      .then((data)=>data.json())
+      .then((data)=>{console.log({...data})});
+
+      }, 500);
+      
+    });
+
+    //create a users for conversation
+    createNewConversation.addEventListener('click',(e)=>{
+      e.preventDefault();
+      console.log('submitted')
+    })
+    
+  </script>
 </html>
