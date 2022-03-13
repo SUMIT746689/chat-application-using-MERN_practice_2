@@ -5,9 +5,23 @@ const createConversation =async (req,res,next) =>{
     console.log(req.params);
     
     try{
+        const finduserId = await User.findOne({
+            $or : [
+                { name   : req.params.userId },
+                { email  : req.params.userId },
+                { mobile : req.params.userId }
+            ]
+        })
+        const perticipentId = await User.findOne({
+            $or : [
+                { name   : req.params.perticipentId },
+                { email  : req.params.perticipentId },
+                { mobile : req.params.perticipentId }
+            ]
+        })
         const conversation = await new Conversation({
-            creatorId : req.params.userId,
-            perticipantId : req.params.perticipentId
+            creatorId : finduserId._id,
+            perticipantId : perticipentId._id
         })
         await conversation.save();
         res.end();

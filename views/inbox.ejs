@@ -25,6 +25,7 @@
       </div>
 
       <!-- Conversation users list -->
+      <% conversation.forEach((data)=>{ %>
       <div id="conversation-list">
         <div class="conversation active">
           <img src="./images/user1.png" alt="Sumit" />
@@ -32,6 +33,7 @@
           <di class="created-date"> Apr 16 </di>
           <div class="conversation-message">This is a message</div>
         </div>
+      <% }) %>
         <div class="conversation">
           <img src="./images/user2.png" alt="Sumit" />
           <div class="title-text">Sumit Saha</div>
@@ -89,7 +91,7 @@
         </div>
       </div>
     </div>
-    <div><%= userObject.email%></div>
+    <div><%= conversation[1].perticipantId %></div>
   </body>
 
   <script>
@@ -134,8 +136,6 @@
           return "<li id='listClick'>"+data.name+"</li>"
         })
         modalList.innerHTML = mapList ;
-        
-        
       }
       }
       catch(err){

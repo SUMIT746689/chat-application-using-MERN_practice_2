@@ -1,3 +1,4 @@
+const timespan = require('jsonwebtoken/lib/timespan');
 const mongoose = require('mongoose');
 
 const convsersationSchema = mongoose.Schema({
@@ -9,7 +10,8 @@ const convsersationSchema = mongoose.Schema({
         type : String,
         required : true
     }
-}
+},
+    {timestamps : true}
 );
 
 const Conversation = mongoose.model('Conversation',convsersationSchema);
