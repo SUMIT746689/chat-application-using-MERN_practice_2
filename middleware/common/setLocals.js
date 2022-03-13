@@ -5,7 +5,6 @@ function setLocalsHandler (data) {
         res.locals.name = data ;
         try{
             const decode = jwt.verify(req.signedCookies[process.env.cookie_name],process.env.jwt_secret)
-            console.log(decode);
             if(decode.userObject.name){
                 res.locals.userObject = decode.userObject;
             }

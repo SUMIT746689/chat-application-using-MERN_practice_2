@@ -122,7 +122,7 @@ input[type="submit"]:active {
   display: none;
 }
 .modal {
-  width: 450px;
+  width: 500px;
   z-index: 99;
   left: 50%;
   top: 50%;
@@ -148,11 +148,40 @@ input[type="submit"]:active {
 
 .modal form {
   width: 90%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: 
+  "l r"
+  "b b";
   gap: 10px;
   margin: 0 auto;
 }
+.modal-input {
+ grid-area: l;
+}
+
+.modal-submit {
+ grid-area: r;
+}
+
+.modal-body  div {
+ grid-area: b;
+ max-height: 150px;
+ overflow: hidden;
+ scroll-behavior: smooth;
+ overflow-y: scroll;
+ scrollbar-color:rgb(230, 227, 227);
+}
+.modal-body li {
+  color: rgb(230, 227, 227);
+  list-style: none;
+  padding: 5px ;
+  font-size: medium;
+}
+.modal-body li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
 
 .modal-close {
   width: 24px;

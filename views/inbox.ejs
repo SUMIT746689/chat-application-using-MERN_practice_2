@@ -79,23 +79,31 @@
         </div>
         <div class="modal-body">
           <form >
-            <input id="new-Converstion-users" type="text" placeholder="Username" name="username" />
-            <input id="create-new-Converstion" type="submit"  value="Submit" />
+            <input class="modal-input" id="new-Converstion-users" type="text" placeholder="Username" name="username" />
+            <input class="modal-submit" title="<%=userObject.email%>" id="create-new-Converstion" type="submit"  value="Submit" />
+            <div id="modal-list">
+              <li></li>
+        
+            </div>
           </form>
         </div>
       </div>
     </div>
-    <div><%= userObject.name%></div>
+    <div><%= userObject.email%></div>
   </body>
 
   <script>
     const modalClose = document.querySelector('.modal-close');
     const modalWrapper = document.querySelector('.modal-wrapper');
+    const modalList = document.querySelector('#modal-list');
     const searchUser = document.querySelector('#search-user');
     const chatForm = document.querySelector('#chat-form');
     const displayNewConversation = document.querySelector('#new-message-container');
     const newConverstionUsers = document.querySelector('#new-Converstion-users');
     const createNewConversation = document.querySelector('#create-new-Converstion');
+
+    let withCoversationId = '';
+  
 
     //add new modal form display
     displayNewConversation.addEventListener('click',()=>{
@@ -108,23 +116,45 @@
     
     //finds available users for conversation
     newConverstionUsers.addEventListener('keyup', async (e)=>{
-      console.log(e.target.value);
+      
+      withCoversationId = e.target.value
+      
       setTimeout(async () => {
-        await fetch(`inbox/${e.target.value}`,{
+      try{
+        const data = await fetch(`inbox/${e.target.value}`,{
         method:'POST'
+        });
+        const dataJson = await data.json();
+        const datalength = Object.keys(dataJson.findUser) ? Object.keys(dataJson.findUser) : 0 ; 
+        if(datalength?.length > 0){
+       //create avaiable users 
+        const mapList = dataJson.findUser.map((data)=>{
+          
+          
+          return "<li id='listClick'>"+data.name+"</li>"
         })
-      .then((data)=>data.json())
-      .then((data)=>{console.log({...data})});
-
+        modalList.innerHTML = mapList ;
+        
+        
+      }
+      }
+      catch(err){
+        console.log(err)
+      }
+      
       }, 500);
       
     });
 
     //create a users for conversation
-    createNewConversation.addEventListener('click',(e)=>{
+    createNewConversation.addEventListener('click',async (e)=>{
       e.preventDefault();
-      console.log('submitted')
-    })
+      await fetch(`/inbox/newConversion/${createNewConversation.title}/${withCoversationId}`,{
+        method : 'POST',
+      })
+      console.log(createNewConversation.title)
+    });
+
     
   </script>
 </html>
