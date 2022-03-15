@@ -11,10 +11,13 @@ const Chatschema = mongoose.Schema({
         required : true
     },
     message : {
-        type : String,
-        required : true
-    }
-})
+        type : String
+    },
+    avatar : {
+        type : String
+    },
+    
+}, {timestamps : true})
 
 const Chat = new mongoose.model('Chat',Chatschema);
 

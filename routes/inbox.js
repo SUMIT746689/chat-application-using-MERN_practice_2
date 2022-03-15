@@ -22,18 +22,22 @@ route.get('/',authHandle,setLocalsHandler("inbox"),async (req,res,next)=>{
         creatorId : userId._id
     })
     res.locals.conversation = [...conversation]
+    
     console.log(conversation)
-    res.render("inbox");
+    res.render("inbox",{
+        chat : null
+    });
 })
 
 
 
 route.post('/chat',authHandle,setLocalsHandler("inbox"),chatHandle);
 
-route.post('/chat/sendMessage',authHandle,sendMessage,chatSendDatabase);
+route.post('/chat/sendMessage',authHandle,setLocalsHandler("inbox"),sendMessage,chatSendDatabase);
+
+route.post('/:id',authHandle,setLocalsHandler("inbox"),searchUser);
 
 route.post('/newConversion/:userId/:perticipentId',authHandle,setLocalsHandler("inbox"),createConversation); 
 
-route.post('/:id',authHandle,setLocalsHandler("inbox"),searchUser);
 
 module.exports = route ;

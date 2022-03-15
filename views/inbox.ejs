@@ -34,7 +34,6 @@
           <div class="conversation-message">This is a message</div>
         </div>
       <% }) %>
-        
       </div>
 
       <!--Add new conversation user-->
@@ -48,39 +47,29 @@
       </div>
 
       <!--user message area-->
+      <% if (chat=== null){ %> 
       <div id="chat-message-list"style="display: flex;justify-content: center;align-items: center;">
         <p style="color: rgba(255, 228, 196, 0.479);font-size: 30px;font-weight: 500;" >Select any user</p>
       </div>
-
-      <!-- <div id="chat-message-list">
-        <div class="message-row other-message">
-          <div class="message-content">
-            <img src="./images/user1.png" alt="Sumit" />
-            <div class="message-text">Ok then</div>
-            <div class="message-time">Apr 16</div>
-          </div>
-        </div>
-        <div class="message-row you-message">
-          <div class="message-content">
-            <div class="message-text">Lorem ipsum dolor sit amet</div>
-            <div class="message-time">Apr 16</div>
-          </div>
-        </div>
-      </div> -->
-
+     <% } %>
+      <div id="chat-message-list">
+        
+      </div>
+      
       <!--chat message type and sendbox -->
       <form id="chat-form" 
         action="/inbox/chat/sendMessage"
         method="post"
         enctype="multipart/form-data"
       >
-        
         <input type="text" id="chat-input" name="chatmessage" type="text" placeholder="Type a message" />
         <input  type="file" name="chatavatar"/>
         <input id="chat-submit"  type="submit" value="send"  />
       </form>
     </div>
 
+    <!--New conversation prompt-->
+    
     <div class="modal-wrapper">
       <div class="modal">
         <a href="#" class="modal-close">+</a>
@@ -99,6 +88,7 @@
         </div>
       </div>
     </div>
+    
     <div><%= conversation[1]?.perticipantId %></div>
   </body>
 
@@ -114,6 +104,7 @@
     const conversationuserlist = document.querySelector('#conversation-user-list');
     const chatSubmit = document.querySelector('#chat-submit');
     const chatInput = document.querySelector('#chat-input');
+    const chatMessageList = document.querySelector('#chat-message-list');
     
     let withCoversationId = '';
   
@@ -182,7 +173,20 @@
       })
       .then(async (data)=>{
         const dataJSON = await data.json();
-        console.log(dataJSON)
+        console.log(dataJSON);
+        jsxData = []
+        dataJSON.chat.forEach(element => {
+          
+        jsxData.push(`<div class='message-row other-message'><div class='message-content'> <img src="./uploads/chatAvatar/${element.avatar}" alt='Sumit' /><div class='message-text'>${element.message}</div><div class='message-time'>Apr 16</div></div></div>`)
+        // <div class="message-row you-message">
+        //   <div class="message-content">
+        //     <div class="message-text">Lorem ipsum dolor sit amet</div>
+        //     <div class="message-time">Apr 16</div>
+        //   </div>
+        // </div>
+        });
+        chatMessageList.innerHTML = jsxData;
+        console.log(jsxData);
       })
       .catch((err)=>{console.log(err)})
     }
@@ -192,7 +196,7 @@
     chatSubmit.addEventListener("click",async (e)=>{
       e.preventDefault();
       const formData =  new FormData(chatForm);
-      
+      formData.append('participentId',chatSubmit.title)
       await fetch('/inbox/chat/sendMessage',{
         method : 'POST',
         body : formData
