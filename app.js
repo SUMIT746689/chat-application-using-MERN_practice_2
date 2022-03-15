@@ -23,7 +23,7 @@ mongoose.connect(process.env.mongoose_database_url)
 
 //types of data can get
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 app.use(express.static('./public',{
     index : false
 }));

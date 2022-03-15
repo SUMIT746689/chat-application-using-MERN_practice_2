@@ -531,7 +531,7 @@ input[type="submit"]:active {
 
 #chat-form {
   display: grid;
-  grid-template-columns: 32px minmax(150px, 1fr) minmax(10px,auto) ;
+  grid-template-columns: minmax(10px,1fr) minmax(150px, 1fr) minmax(10px,1fr) ;
   align-content: center;
   align-items: center;
   grid-gap: 15px;
